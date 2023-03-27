@@ -1,25 +1,49 @@
-import React, { useReducer } from 'react'
 
+import { useReducer } from 'react';
+import { TodoAdd } from './TodoAdd';
+import { TodoList } from './TodoList';
+import { todoReducer } from './todoReducer';
 
-function TodoApp() {
+export const initialState = [
+    {
+        id: new Date().getTime(),
+        description: 'Recolectar la piedra del alma',
+        done: false,
+    },
+    {
+        id: new Date().getTime() * 3,
+        description: 'Recolectar la piedra del tiempo',
+        done: false,
+    },
+]
 
-    const [state, dispatch] = useReducer( first, second )
+export const TodoApp = () => {
+
+    const [todos, dispatch] = useReducer( todoReducer, initialState );
+
+    const handleNewTodo = ( todo ) => {
+        console.log({ todo });
+    }
 
 
     return (
         <>
-            <h1>Todo App</h1>
+            <h1>Todo App: 10, <small>pendientes: 2</small></h1>
             <hr />
 
-            <ul>
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-            </ul>
+            <div className="row">
+                <div className="col-7">
+                    <TodoList todos={ todos } />
+                </div>
+
+                <div className="col-5">
+                    <h4>Agregar TODO</h4>
+                    <hr />
+                    <TodoAdd onNewTodo={ handleNewTodo }/>
+                </div>
+            </div>
 
 
         </>
     )
 }
-
-export default TodoApp
